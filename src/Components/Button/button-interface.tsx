@@ -1,5 +1,7 @@
 export default interface ButtonProps {
-  colorScheme: string;
+  variant: string;
   size: string;
+  radius: string;
+  color: string;
   buttonText: string;
 }

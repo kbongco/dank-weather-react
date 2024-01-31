@@ -1,13 +1,16 @@
-import { Button, ButtonGroup, ButtonProps } from '@chakra-ui/react'
+import { Button } from '@mantine/core';
+import ButtonProps from './button-interface';
 
-export default function WeatherButton({colorScheme, size, buttonText } :ButtonProps) {
+export default function WeatherButton({variant, size, radius, buttonText } :ButtonProps) {
   return (
     <>
       <div className='button-container'>
-        <Button colorScheme={colorScheme}
-          size={size}>
+        <Button 
+          variant={variant}
+          size={size}
+          radius={radius}>
           {buttonText}
-          </Button>
+        </Button>
       </div>
     </>
   )
