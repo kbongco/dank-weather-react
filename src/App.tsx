@@ -6,7 +6,9 @@ import { CardSection, Center, Flex, MantineProvider, TextInput } from '@mantine/
 import { Button, Card, Text, Image } from '@mantine/core';
 import '@mantine/core/styles.css';
 import HolidaysComponent from './Components/holidaysComponent';
-import getCurrentDate from './utils/getCurrentDate';
+import funnyWeatherQuotes from './utils/weatherQuote';
+
+
 
 function App() {
 
@@ -14,7 +16,6 @@ function App() {
   const [lat, setLat] = useState('');
   const [weather, setWeather] = useState([]);
   const [city, setCity] = useState('');
-  const [feelsLike, setFeelsLike] = useState('');
   const [low, setLow] = useState('');
   const [weatherIcon, setWeatherIcon] = useState('');
   const [high, setHigh] = useState('');
@@ -23,6 +24,7 @@ function App() {
   const [weatherDescription, setWeatherDescription] = useState('');
   const [airQuality, setAirQuality] = useState('');
   const [tropicSzn, setIsTropicSzn] = useState('')
+  const [weatherQuote, setWeatherQuote] = useState('');
 
   const getWeather = () => {
     console.log('yes');
@@ -43,12 +45,14 @@ function App() {
         ])
       }
     }).then(([weatherData, airQualityData]) => {
+      console.log(weatherData);
       setWeather(weatherData);
       setDataLoaded(true);
       setCurrentTemp(weatherData.main.temp);
       setHigh(weatherData.main.temp_max);
       setLow(weatherData.main.temp_min);
       returnAirQualityIndex(airQualityData.list[0].main.aqi);
+      setWeatherQuote(funnyWeatherQuotes(weatherData.main.feels_like, weatherData.main.temp));
       console.log(airQualityData);
       setWeatherIcon(`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`)
       setWeatherDescription(weatherData.weather[0].description);
@@ -128,7 +132,7 @@ function App() {
                 <Text>{low}</Text>
             </CardSection>
             </Card>
-            <h3>Nothing out of the ordinary here with the weather</h3>
+            <h3>{weatherQuote}</h3>
             <Flex justify="flex-start"
               gap="sm"
       align="center"
@@ -162,3 +166,7 @@ function App() {
 }
 
 export default App
+function funnyWeatherQuptes(feels_like: any, temp: any) {
+  throw new Error('Function not implemented.');
+}
+
