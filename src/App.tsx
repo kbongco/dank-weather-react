@@ -7,7 +7,9 @@ import { Button, Card, Text, Image } from '@mantine/core';
 import '@mantine/core/styles.css';
 import HolidaysComponent from './Components/holidaysComponent';
 import funnyWeatherQuotes from './utils/weatherQuote';
-
+import { date, month, the12Seasons } from './constants'
+import { getCurrentMonth } from './utils/getCurrentDate';
+import { displaySznInfo } from './utils/determineCurrentSzn';
 
 
 function App() {
@@ -25,6 +27,9 @@ function App() {
   const [airQuality, setAirQuality] = useState('');
   const [tropicSzn, setIsTropicSzn] = useState('')
   const [weatherQuote, setWeatherQuote] = useState('');
+  const [currentSzn, setCurrentSzn] = useState('');
+  let currentMonth = getCurrentMonth(month);
+
 
   const getWeather = () => {
     console.log('yes');
@@ -53,6 +58,8 @@ function App() {
       setLow(weatherData.main.temp_min);
       returnAirQualityIndex(airQualityData.list[0].main.aqi);
       setWeatherQuote(funnyWeatherQuotes(weatherData.main.feels_like, weatherData.main.temp));
+      setCurrentSzn(displaySznInfo(weatherData.main.temp, currentMonth, the12Seasons))
+      console.log(currentSzn,'test');
       console.log(airQualityData);
       setWeatherIcon(`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`)
       setWeatherDescription(weatherData.weather[0].description);
@@ -140,7 +147,7 @@ function App() {
       wrap="wrap">
             <Card shadow="sm" padding="lg" radius="md" withBorder>
                 <Text>Current Season</Text>
-                <Text>Dry Season</Text>
+                <Text>{currentSzn}</Text>
             </Card>
             <Card shadow="sm" padding="lg" radius="md" withBorder>
                 <Text>Outfit of the Day</Text>
@@ -165,8 +172,5 @@ function App() {
   )
 }
 
-export default App
-function funnyWeatherQuptes(feels_like: any, temp: any) {
-  throw new Error('Function not implemented.');
-}
+export default App;
 

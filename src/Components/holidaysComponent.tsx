@@ -1,5 +1,5 @@
 import { Center, Flex } from "@mantine/core";
-import getCurrentDate from "../utils/getCurrentDate";
+import { getCurrentDate } from "../utils/getCurrentDate";
 import { useEffect, useState } from "react";
 
 export default function HolidaysComponent(holidays) {

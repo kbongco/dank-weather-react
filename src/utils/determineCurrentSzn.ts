@@ -1,4 +1,4 @@
-export default function displaySznInfo(temperature, currentMonth, the12Seasons) {
+export function displaySznInfo(temperature, currentMonth, the12Seasons) {
   if (
     currentMonth === "January" ||
     currentMonth === "February" ||
@@ -32,7 +32,7 @@ export default function displaySznInfo(temperature, currentMonth, the12Seasons) 
   }
 }
 
-export default function determineSeason(lat, currentMonth, weatherData, dryAndWetTropics, the12Seasons, southernHemisphereSzn) {
+export function determineSeason(lat, currentMonth, weatherData, dryAndWetTropics, the12Seasons, southernHemisphereSzn) {
   // Check if the location is in the tropics
   if (lat < 23.5 && lat > -23.5) {
     for (const tropicSeason in dryAndWetTropics[0]) {
