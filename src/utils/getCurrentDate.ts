@@ -1,4 +1,4 @@
-export default function getCurrentDate(day, month, year) {
+export default function getCurrentDate(day, month) {
   const months = [
     "January",
     "February",
@@ -15,6 +15,6 @@ export default function getCurrentDate(day, month, year) {
   ];
 
   const monthName = months[month - 1];
-  let currentDate = `${monthName} ${day} ${year}`;
+  let currentDate = `${monthName} ${day}`;
   return currentDate;
 }

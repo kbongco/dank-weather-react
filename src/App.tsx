@@ -23,14 +23,6 @@ function App() {
   const [weatherDescription, setWeatherDescription] = useState('');
   const [airQuality, setAirQuality] = useState('');
   const [tropicSzn, setIsTropicSzn] = useState('')
-  let date = new Date();
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
-
-  let currentDate = getCurrentDate(day, month, year);
-  console.log(currentDate);
-
 
   const getWeather = () => {
     console.log('yes');
@@ -115,9 +107,6 @@ function App() {
           </GridItem>
         </Grid>
         </div>
-        <div>
-          <h2>Todays Date is {currentDate}</h2>
-        </div>
         {dataLoaded ?
           <div style={{ width: 340, margin: 'auto' }}>
             <div>
@@ -165,8 +154,8 @@ function App() {
               </Card>
               </Flex>
           </div>
-          : <h1>No weatherstuff</h1>}
-        <HolidaysComponent holidays={holidays} currentDate={currentDate} />
+          : ''}
+        <HolidaysComponent holidays={holidays}  />
         </MantineProvider>
     </>
   )
