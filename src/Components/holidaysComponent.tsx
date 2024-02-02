@@ -1,4 +1,4 @@
-import { Center } from "@mantine/core";
+import { Center, Flex } from "@mantine/core";
 import getCurrentDate from "../utils/getCurrentDate";
 import { useEffect, useState } from "react";
 
@@ -10,6 +10,7 @@ export default function HolidaysComponent(holidays) {
 
   let currentDate = getCurrentDate(day, month);
   const [holidayGif, setHolidayGifs] = useState('');
+
 
   const filterHolidaysByDate = (currentDate) => {
     const filtered = holidays.holidays.popCultureHolidaysAndEvents.find((holiday) => {
@@ -27,7 +28,7 @@ export default function HolidaysComponent(holidays) {
     return filteredAbout ? <p>{filteredAbout.about}</p> : null; 
   }
 
-  console.log(aboutDescription(currentDate));
+// Make functions above DRY
   
 
   useEffect(() => {
@@ -54,7 +55,10 @@ export default function HolidaysComponent(holidays) {
         </Center>
         <h2>We have a holiday today it is: {filteredHolidays}</h2>
         {aboutDescription(currentDate)}
-        <iframe src={holidayGif} width="480" height="270" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
+        <Flex
+        justify="center">
+        <iframe src={holidayGif} height="200" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
+        </Flex>
         </div>
     </>
   )
