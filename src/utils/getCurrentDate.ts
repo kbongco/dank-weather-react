@@ -1,8 +1,3 @@
-// let date = new Date();
-// let day = date.getDate();
-// let month = date.getMonth() + 1;
-// let year = date.getFullYear();
-
 export default function getCurrentDate(day, month, year) {
   const months = [
     "January",

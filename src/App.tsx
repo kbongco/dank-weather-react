@@ -2,80 +2,13 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import holidays from './holidays.json';
 import { Grid, GridItem, Img } from '@chakra-ui/react'
-import { CardSection, MantineProvider, TextInput } from '@mantine/core';
+import { CardSection, Center, Flex, MantineProvider, TextInput } from '@mantine/core';
 import { Button, Card, Text, Image } from '@mantine/core';
 import '@mantine/core/styles.css';
+import HolidaysComponent from './Components/holidaysComponent';
+import getCurrentDate from './utils/getCurrentDate';
 
 function App() {
-//   main
-// : 
-// feels_like
-// : 
-// 78.57
-// humidity
-// : 
-// 81
-// pressure
-// : 
-// 1017
-// temp
-// : 
-// 77.32
-// temp_max
-// : 
-// 78.13
-// temp_min
-// : 
-// 77.04
-// [[Prototype]]
-// : 
-// Object
-// name
-// : 
-// "National Capital Region"
-// sys
-// : 
-// country
-// : 
-// "PH"
-// id
-// : 
-// 2008256
-// sunrise
-// : 
-// 1706739872
-// sunset
-// : 
-// 1706781264
-// type
-// : 
-// 2
-// [[Prototype]]
-// : 
-// Object
-// timezone
-// : 
-// 28800
-// visibility
-// : 
-// 10000
-// weather
-// : 
-// Array(1)
-// 0
-// : 
-// description
-// : 
-// "few clouds"
-// icon
-// : 
-// "02n"
-// id
-// : 
-// 801
-// main
-// : 
-// "Clouds"
 
   const [lon, setLon] = useState('');
   const [lat, setLat] = useState('');
@@ -87,6 +20,16 @@ function App() {
   const [high, setHigh] = useState('');
   const [currentTemp, setCurrentTemp] = useState('');
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [weatherDescription, setWeatherDescription] = useState('');
+  const [airQuality, setAirQuality] = useState('');
+  const [tropicSzn, setIsTropicSzn] = useState('')
+  let date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+
+  let currentDate = getCurrentDate(day, month, year);
+  console.log(currentDate);
 
 
   const getWeather = () => {
@@ -113,7 +56,10 @@ function App() {
       setCurrentTemp(weatherData.main.temp);
       setHigh(weatherData.main.temp_max);
       setLow(weatherData.main.temp_min);
+      returnAirQualityIndex(airQualityData.list[0].main.aqi);
+      console.log(airQualityData);
       setWeatherIcon(`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`)
+      setWeatherDescription(weatherData.weather[0].description);
       console.log(airQualityData);
     }).catch((error) => {
       console.error(error);
@@ -124,7 +70,23 @@ function App() {
     setCity(event.target.value);
   }
 
-  console.log(weather);
+
+  function returnAirQualityIndex(aqi:number) {
+    const aqiReadings = new Map([
+      [1, 'Good'],
+      [2, 'Fair'],
+      [3, 'Moderate'],
+      [4, 'Poor'],
+      [5, 'Very Poor']
+    ]);
+  
+    if (aqiReadings.has(aqi)) {
+      const description = aqiReadings.get(aqi);
+      setAirQuality(`${aqi} -- ${description}`);
+    } else {
+      setAirQuality('Not valid');
+    }
+  }
 
   return (
     <>
@@ -153,22 +115,58 @@ function App() {
           </GridItem>
         </Grid>
         </div>
+        <div>
+          <h2>Todays Date is {currentDate}</h2>
+        </div>
         {dataLoaded ?
           <div style={{ width: 340, margin: 'auto' }}>
             <div>
               <h3>Current Weather for: {city} </h3>
             </div>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <CardSection>
-                <Image src={weatherIcon} />
+              <CardSection>
+                <Flex
+                      gap="sm"
+                      justify="center"
+                      align="center">
+                <Image src={weatherIcon} style={{height: 200, width: 200}} />
+                </Flex>
             </CardSection>
-            <CardSection>
+              <CardSection>
+                <Text>{weatherDescription}</Text>
             <Text fz="lg" lh="sm">The current temperature is: {currentTemp}</Text>
             <Text>{high}</Text>
                 <Text>{low}</Text>
             </CardSection>
-          </Card>
-         </div> : <h1>No weatherstuff</h1>}
+            </Card>
+            <h3>Nothing out of the ordinary here with the weather</h3>
+            <Flex justify="flex-start"
+              gap="sm"
+      align="center"
+      direction="row"
+      wrap="wrap">
+            <Card shadow="sm" padding="lg" radius="md" withBorder>
+                <Text>Current Season</Text>
+                <Text>Dry Season</Text>
+            </Card>
+            <Card shadow="sm" padding="lg" radius="md" withBorder>
+                <Text>Outfit of the Day</Text>
+                <Text>Coming Soon!</Text>
+              </Card>
+              <Card shadow="sm" padding="lg" radius="md" withBorder>
+                <Text>Pollen Forecast</Text>
+                <Text>Coming Soon!</Text>
+              </Card>
+              <Card shadow="sm" padding="lg" radius="md" withBorder>
+                <Text>Air Quality Index</Text>
+                <Center>
+                <Text>{airQuality}</Text>
+                </Center>
+              </Card>
+              </Flex>
+          </div>
+          : <h1>No weatherstuff</h1>}
+        <HolidaysComponent holidays={holidays} currentDate={currentDate} />
         </MantineProvider>
     </>
   )
