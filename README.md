@@ -1,30 +1,28 @@
-# React + TypeScript + Vite
+# Dank Weather and Holidays
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fun web application which tells you the current weather in any city as well as displaying fun gifs that show off the real holiday or popculture holiday that is on the current date 
 
-Currently, two official plugins are available:
+## About this project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a fun project that I created to practice React. The original project I created of this was made strictly in Vanilla JS as a way for me to practice and see if I still remember my basics. After having some trouble with deployment, I decided to re-create it with a framework. 
 
-## Expanding the ESLint configuration
+Since I originally did this in vanilla as opposed to a framework right away, I can see the connections between the two and I have a much deeper appreciation for knowing how to do everything in the vanilla way as opposed to jumping straight into a framework. I often use a library for anything API call related, but instead I just used fetch instead of using axios to help me get used to asynchronous programming and such. 
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+I also used it as a chance to try out various component libraries, for this project I decided on using Mantine. 
 
-- Configure the top-level `parserOptions` property like this:
+## Technologies and Libraries used 
+<ul>
+<li>Vite</li>
+<li>React</li>
+<li>Typescript</li>
+<li>Open Weather API</li>
+<li>GIPHY API</li>
+<li>Figma</li>
+<li>Mantine</li>
+</ul>
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Enhancements to be made 
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+I hope to find an API that actually tells give data on the pollen content in the air that is free since most APIs that give that information are pay to use. 
+
+I also am making adjustments for it to have funny quotes when the city is is in the southern hemisphere or if it is in the tropics. 
