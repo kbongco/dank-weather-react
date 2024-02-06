@@ -7,7 +7,7 @@ import { Button, Card, Text, Image } from '@mantine/core';
 import '@mantine/core/styles.css';
 import HolidaysComponent from './Components/holidaysComponent';
 import funnyWeatherQuotes from './utils/weatherQuote';
-import { date, month, the12Seasons, dryAndWetTropics, southernHemisphereSzn } from './constants'
+import { date, month, the12Seasons, dryAndWetTropics } from './constants'
 import { getCurrentMonth } from './utils/getCurrentDate';
 import { determineSeason, displaySznInfo } from './utils/determineCurrentSzn';
 
@@ -29,6 +29,13 @@ function App() {
   const [weatherQuote, setWeatherQuote] = useState('');
   const [currentSzn, setCurrentSzn] = useState<any>('');
   let currentMonth = getCurrentMonth(month);
+  const southernHemisphereSzn = [{
+    summer: ['December', 'January', 'February'],
+    fall: ['March', 'April', 'May'],
+    winter: ['June', 'July', 'August'],
+    spring: ['September', 'Ocobter', 'November']
+
+  }]
 
 
   const getWeather = () => {
@@ -37,7 +44,6 @@ function App() {
     fetch(getCityAPI).then((res) => {
       return res.json();
     }).then((data) => {
-      console.log(data);
       if (data.length > 0) {
         setCity(data[0].name);
         setLat(data[0].lat);
@@ -50,14 +56,13 @@ function App() {
         ])
       }
     }).then(([weatherData, airQualityData]) => {
-      console.log(weatherData);
       setWeather(weatherData);
+      setCurrentSzn(determineSeason(weatherData.coord.lat, currentMonth, weatherData.main.temp, dryAndWetTropics, the12Seasons, southernHemisphereSzn));
       setDataLoaded(true);
       setCurrentTemp(weatherData.main.temp);
       setHigh(weatherData.main.temp_max);
       setLow(weatherData.main.temp_min);
       returnAirQualityIndex(airQualityData.list[0].main.aqi);
-      setCurrentSzn(displaySznInfo(weatherData.main.temp, currentMonth, the12Seasons));
       setWeatherIcon(`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`)
       setWeatherDescription(weatherData.weather[0].description);
       console.log(airQualityData);
@@ -66,12 +71,12 @@ function App() {
     })
   }
 
-  const handleCityChange = (event:any) => {
+  const handleCityChange = (event: any) => {
     setCity(event.target.value);
   }
 
 
-  function returnAirQualityIndex(aqi:number) {
+  function returnAirQualityIndex(aqi: number) {
     const aqiReadings = new Map([
       [1, 'Good'],
       [2, 'Fair'],
@@ -79,7 +84,7 @@ function App() {
       [4, 'Poor'],
       [5, 'Very Poor']
     ]);
-  
+
     if (aqiReadings.has(aqi)) {
       const description = aqiReadings.get(aqi);
       setAirQuality(`${aqi} -- ${description}`);
@@ -91,64 +96,64 @@ function App() {
   return (
     <>
       <MantineProvider>
-      <div className='header-container'>
-      <h1>Dank weather and holidays</h1>
-      </div>
-      <div className='paragraph-container'>
-        <p>A fun web application that tells you the weather of any city and if there are any holidays on that day</p>
-      </div>
+        <div className='header-container'>
+          <h1>Dank weather and holidays</h1>
+        </div>
+        <div className='paragraph-container'>
+          <p>A fun web application that tells you the weather of any city and if there are any holidays on that day</p>
+        </div>
 
-      <div className='search-container'>
-        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-          <GridItem>
+        <div className='search-container'>
+          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <GridItem>
               <TextInput
-                     size="md"
-                     radius="xl"
-      label="Enter City Here"
+                size="md"
+                radius="xl"
+                label="Enter City Here"
                 placeholder="Input placeholder"
                 onChange={handleCityChange}
-    />
-          </GridItem>
+              />
+            </GridItem>
             <GridItem>
               <Flex justify='center'
-              align="flex-end">
-              <Button variant="filled" color="teal" size="md" radius="xl" onClick={getWeather}>Search</Button>
+                align="flex-end">
+                <Button variant="filled" color="teal" size="md" radius="xl" onClick={getWeather}>Search</Button>
               </Flex>
-          </GridItem>
-        </Grid>
+            </GridItem>
+          </Grid>
         </div>
         {dataLoaded ?
           <div style={{ width: 340, margin: 'auto' }}>
             <div>
               <h3>Current Weather for: {city} </h3>
             </div>
-          <Card shadow="sm" padding="lg" radius="md" withBorder>
+            <Card shadow="sm" padding="lg" radius="md" withBorder>
               <CardSection>
                 <Flex
-                      gap="sm"
-                      justify="center"
-                      align="center">
-                <Image src={weatherIcon} style={{height: 200, width: 200}} />
+                  gap="sm"
+                  justify="center"
+                  align="center">
+                  <Image src={weatherIcon} style={{ height: 200, width: 200 }} />
                 </Flex>
-            </CardSection>
+              </CardSection>
               <CardSection>
                 <Text>{weatherDescription}</Text>
-            <Text fz="lg" lh="sm">The current temperature is: {currentTemp}</Text>
-            <Text>{high}</Text>
+                <Text fz="lg" lh="sm">The current temperature is: {currentTemp}</Text>
+                <Text>{high}</Text>
                 <Text>{low}</Text>
-            </CardSection>
+              </CardSection>
             </Card>
             <h3>{weatherQuote}</h3>
             <Flex justify="flex-start"
               gap="sm"
-      align="center"
-      direction="row"
-      wrap="wrap">
-            <Card shadow="sm" padding="lg" radius="md" withBorder>
+              align="center"
+              direction="row"
+              wrap="wrap">
+              <Card shadow="sm" padding="lg" radius="md" withBorder>
                 <Text>Current Season</Text>
                 <Text>{currentSzn}</Text>
-            </Card>
-            <Card shadow="sm" padding="lg" radius="md" withBorder>
+              </Card>
+              <Card shadow="sm" padding="lg" radius="md" withBorder>
                 <Text>Outfit of the Day</Text>
                 <Text>Coming Soon!</Text>
               </Card>
@@ -159,14 +164,14 @@ function App() {
               <Card shadow="sm" padding="lg" radius="md" withBorder>
                 <Text>Air Quality Index</Text>
                 <Center>
-                <Text>{airQuality}</Text>
+                  <Text>{airQuality}</Text>
                 </Center>
               </Card>
-              </Flex>
+            </Flex>
           </div>
           : ''}
-        <HolidaysComponent holidays={holidays}  />
-        </MantineProvider>
+        <HolidaysComponent holidays={holidays} />
+      </MantineProvider>
     </>
   )
 }

@@ -3,12 +3,12 @@ import { getCurrentDate } from "../utils/getCurrentDate";
 import { useEffect, useState } from "react";
 
 export default function HolidaysComponent(holidays) {
-  let date = new Date();
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
 
-  let currentDate = getCurrentDate(day, month);
+  const currentDate = getCurrentDate(day, month);
   const [holidayGif, setHolidayGifs] = useState('');
 
 
@@ -42,7 +42,7 @@ export default function HolidaysComponent(holidays) {
       fetch(`https://api.giphy.com/v1/gifs/random?api_key=${import.meta.env.VITE_GIPHY_API_KEY}&tag=&rating=g`).then((res) => {
         return res.json();
       }).then((data) => {
-        setHolidayGifs(data.data[0].embedurl);
+        setHolidayGifs(data.data.embed_url);
       })
     }
   }, [filteredHolidays])
@@ -58,12 +58,12 @@ export default function HolidaysComponent(holidays) {
             {filteredHolidays}
           </h2>
           {aboutDescription(currentDate)}
-          <Flex
-            justify="center">
-            <iframe src={holidayGif} height="200" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
-          </Flex>
         </div> : <h2>
           There are no holidays today</h2>}
+        <Flex
+          justify="center">
+          <iframe src={holidayGif} height="200" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
+        </Flex>
       </div>
     </>
   )
