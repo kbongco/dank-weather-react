@@ -25,7 +25,6 @@ function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [weatherDescription, setWeatherDescription] = useState('');
   const [airQuality, setAirQuality] = useState('');
-  const [tropicSzn, setIsTropicSzn] = useState('')
   const [weatherQuote, setWeatherQuote] = useState('');
   const [currentSzn, setCurrentSzn] = useState<any>('');
   let currentMonth = getCurrentMonth(month);
@@ -39,7 +38,6 @@ function App() {
 
 
   const getWeather = () => {
-    console.log('yes');
     const getCityAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${import.meta.env.VITE_WEATHER_API_KEY}`
     fetch(getCityAPI).then((res) => {
       return res.json();
