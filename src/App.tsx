@@ -7,9 +7,9 @@ import { Button, Card, Text, Image } from '@mantine/core';
 import '@mantine/core/styles.css';
 import HolidaysComponent from './Components/holidaysComponent';
 import funnyWeatherQuotes from './utils/weatherQuote';
-import { date, month, the12Seasons } from './constants'
+import { date, month, the12Seasons, dryAndWetTropics, southernHemisphereSzn } from './constants'
 import { getCurrentMonth } from './utils/getCurrentDate';
-import { displaySznInfo } from './utils/determineCurrentSzn';
+import { determineSeason, displaySznInfo } from './utils/determineCurrentSzn';
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
   const [airQuality, setAirQuality] = useState('');
   const [tropicSzn, setIsTropicSzn] = useState('')
   const [weatherQuote, setWeatherQuote] = useState('');
-  const [currentSzn, setCurrentSzn] = useState('');
+  const [currentSzn, setCurrentSzn] = useState<any>('');
   let currentMonth = getCurrentMonth(month);
 
 
@@ -57,10 +57,7 @@ function App() {
       setHigh(weatherData.main.temp_max);
       setLow(weatherData.main.temp_min);
       returnAirQualityIndex(airQualityData.list[0].main.aqi);
-      setWeatherQuote(funnyWeatherQuotes(weatherData.main.feels_like, weatherData.main.temp));
-      setCurrentSzn(displaySznInfo(weatherData.main.temp, currentMonth, the12Seasons))
-      console.log(currentSzn,'test');
-      console.log(airQualityData);
+      setCurrentSzn(displaySznInfo(weatherData.main.temp, currentMonth, the12Seasons));
       setWeatherIcon(`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`)
       setWeatherDescription(weatherData.weather[0].description);
       console.log(airQualityData);
@@ -112,9 +109,11 @@ function App() {
                 onChange={handleCityChange}
     />
           </GridItem>
-          <GridItem>
-            <Button variant="filled" color="teal" size="md" radius="xl" onClick={getWeather}>Search</Button>
-            
+            <GridItem>
+              <Flex justify='center'
+              align="flex-end">
+              <Button variant="filled" color="teal" size="md" radius="xl" onClick={getWeather}>Search</Button>
+              </Flex>
           </GridItem>
         </Grid>
         </div>

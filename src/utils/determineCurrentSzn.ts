@@ -32,7 +32,7 @@ export function displaySznInfo(temperature, currentMonth, the12Seasons) {
   }
 }
 
-export function determineSeason(lat, currentMonth, weatherData, dryAndWetTropics, the12Seasons, southernHemisphereSzn) {
+export function determineSeason(lat, currentMonth, temperature, dryAndWetTropics, the12Seasons, southernHemisphereSzn) {
   // Check if the location is in the tropics
   if (lat < 23.5 && lat > -23.5) {
     for (const tropicSeason in dryAndWetTropics[0]) {
@@ -50,11 +50,10 @@ export function determineSeason(lat, currentMonth, weatherData, dryAndWetTropics
         return southernSeason;
       }
     }
-  }
-
+  } 
   // Default to the 12-season check
   for (let i = 0; i < the12Seasons.length; i++) {
-    if (displaySznInfo(weatherData.weather[0].main, currentMonth, the12Seasons) === the12Seasons[i]) {
+    if (displaySznInfo(weatherData?.main?.temp, currentMonth, the12Seasons) === the12Seasons[i]) {
       return the12Seasons[i];
     }
   }

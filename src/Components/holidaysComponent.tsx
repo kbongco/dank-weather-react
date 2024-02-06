@@ -16,7 +16,7 @@ export default function HolidaysComponent(holidays) {
     const filtered = holidays.holidays.popCultureHolidaysAndEvents.find((holiday) => {
       return holiday.holidayDate.includes(currentDate);
     })
-    return filtered ? filtered.holidayName : null; 
+    return filtered ? filtered.holidayName : null;
   }
 
   const filteredHolidays = filterHolidaysByDate(currentDate);
@@ -25,11 +25,11 @@ export default function HolidaysComponent(holidays) {
     const filteredAbout = holidays.holidays.popCultureHolidaysAndEvents.find((holiday) => {
       return holiday.holidayDate.includes(currentDate);
     });
-    return filteredAbout ? <p>{filteredAbout.about}</p> : null; 
+    return filteredAbout ? <p>{filteredAbout.about}</p> : null;
   }
 
-// Make functions above DRY
-  
+  // Make functions above DRY
+
 
   useEffect(() => {
     if (filteredHolidays !== null) {
@@ -45,21 +45,26 @@ export default function HolidaysComponent(holidays) {
         setHolidayGifs(data.data[0].embedurl);
       })
     }
-  },[filteredHolidays])
-  
+  }, [filteredHolidays])
+
   return (
     <>
       <div>
         <Center>
-        <h2>Todays Date is {currentDate}, {year}</h2>
+          <h2>Todays Date is {currentDate}, {year}</h2>
         </Center>
-        <h2>We have a holiday today it is: {filteredHolidays}</h2>
-        {aboutDescription(currentDate)}
-        <Flex
-        justify="center">
-        <iframe src={holidayGif} height="200" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
-        </Flex>
-        </div>
+        {filteredHolidays !== null ? <div>
+          <h2>We have a holiday today it is:
+            {filteredHolidays}
+          </h2>
+          {aboutDescription(currentDate)}
+          <Flex
+            justify="center">
+            <iframe src={holidayGif} height="200" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
+          </Flex>
+        </div> : <h2>
+          There are no holidays today</h2>}
+      </div>
     </>
   )
 }
