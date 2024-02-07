@@ -13,3 +13,4 @@ export default function funnyWeatherQuotes(temperature, feels_like) {
     return "Nothing out of the ordinary here!";
   }
 }
+

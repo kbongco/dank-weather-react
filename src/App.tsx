@@ -10,6 +10,7 @@ import funnyWeatherQuotes from './utils/weatherQuote';
 import { date, month, the12Seasons, dryAndWetTropics } from './constants'
 import { getCurrentMonth } from './utils/getCurrentDate';
 import { determineSeason, displaySznInfo } from './utils/determineCurrentSzn';
+import { meetRequirements } from './utils/funnyIcons';
 
 
 function App() {
@@ -57,11 +58,15 @@ function App() {
       setWeather(weatherData);
       setCurrentSzn(determineSeason(weatherData.coord.lat, currentMonth, weatherData.main.temp, dryAndWetTropics, the12Seasons, southernHemisphereSzn));
       setDataLoaded(true);
+      console.log(weatherData);
       setCurrentTemp(weatherData.main.temp);
+      const testing = meetRequirements(weatherData.main.temp);
+      console.log(testing);
       setHigh(weatherData.main.temp_max);
       setLow(weatherData.main.temp_min);
       returnAirQualityIndex(airQualityData.list[0].main.aqi);
       setWeatherIcon(`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`)
+      setWeatherQuote(funnyWeatherQuotes(weatherData.main.temp, weatherData.main.feels_like));
       setWeatherDescription(weatherData.weather[0].description);
       console.log(airQualityData);
     }).catch((error) => {
@@ -141,7 +146,9 @@ function App() {
                 <Text>{low}</Text>
               </CardSection>
             </Card>
+            <Center>
             <h3>{weatherQuote}</h3>
+            </Center>
             <Flex justify="flex-start"
               gap="sm"
               align="center"
