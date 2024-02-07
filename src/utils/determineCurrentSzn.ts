@@ -1,4 +1,4 @@
-export function displaySznInfo(temperature, currentMonth, the12Seasons) {
+export function displaySznInfo(temperature:number, currentMonth:string, the12Seasons:string[]) {
   if (temperature > 45 && currentMonth === 'February') {
     return the12Seasons[1];
   } else if (currentMonth === 'February') {
@@ -25,7 +25,7 @@ export function displaySznInfo(temperature, currentMonth, the12Seasons) {
     return the12Seasons[11];
   }
 }
-// The 12 seasons 
+// The 12 seasons may change this to something different
 // Winter -- December, January, February 
 // Fools Spring --> February > 45
 // Second Winter --> February 
