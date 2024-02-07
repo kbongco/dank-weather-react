@@ -10,7 +10,7 @@ import funnyWeatherQuotes from './utils/weatherQuote';
 import { date, month, the12Seasons, dryAndWetTropics } from './constants'
 import { getCurrentMonth } from './utils/getCurrentDate';
 import { determineSeason, displaySznInfo } from './utils/determineCurrentSzn';
-import { meetRequirements } from './utils/funnyIcons';
+import { generateSpecialIcon, meetRequirements, useSpecialIcon } from './utils/funnyIcons';
 
 
 function App() {
@@ -28,6 +28,7 @@ function App() {
   const [airQuality, setAirQuality] = useState('');
   const [weatherQuote, setWeatherQuote] = useState('');
   const [currentSzn, setCurrentSzn] = useState<any>('');
+  const [specialIcon, setSpecialIcon] = useState(null);
   let currentMonth = getCurrentMonth(month);
   const southernHemisphereSzn = [{
     summer: ['December', 'January', 'February'],
@@ -36,6 +37,7 @@ function App() {
     spring: ['September', 'Ocobter', 'November']
 
   }]
+  let requirementCheck;
 
 
   const getWeather = () => {
@@ -60,8 +62,10 @@ function App() {
       setDataLoaded(true);
       console.log(weatherData);
       setCurrentTemp(weatherData.main.temp);
-      const testing = meetRequirements(weatherData.main.temp);
-      console.log(testing);
+      requirementCheck = meetRequirements(weatherData.main.temp);
+      console.log(requirementCheck);
+      console.log(specialIcon);
+
       setHigh(weatherData.main.temp_max);
       setLow(weatherData.main.temp_min);
       returnAirQualityIndex(airQualityData.list[0].main.aqi);
@@ -136,7 +140,9 @@ function App() {
                   gap="sm"
                   justify="center"
                   align="center">
-                  <Image src={weatherIcon} style={{ height: 200, width: 200 }} />
+                  {/* <Image src={weatherIcon} style={{ height: 200, width: 200 }} /> */}
+                  {requirementCheck ? specialIcon : <Image src={weatherIcon} style={{ height: 200, width: 200 }} />}
+
                 </Flex>
               </CardSection>
               <CardSection>
@@ -147,7 +153,7 @@ function App() {
               </CardSection>
             </Card>
             <Center>
-            <h3>{weatherQuote}</h3>
+              <h3>{weatherQuote}</h3>
             </Center>
             <Flex justify="flex-start"
               gap="sm"
