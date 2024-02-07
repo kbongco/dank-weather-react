@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import holidays from './holidays.json';
 import { Grid, GridItem, Img } from '@chakra-ui/react'
-import { CardSection, Center, Flex, MantineProvider, TextInput } from '@mantine/core';
+import { CardSection, Center, Flex, MantineProvider, TextInput, createTheme } from '@mantine/core';
 import { Button, Card, Text, Image } from '@mantine/core';
 import '@mantine/core/styles.css';
 import HolidaysComponent from './Components/holidaysComponent';
@@ -12,6 +12,9 @@ import { getCurrentMonth } from './utils/getCurrentDate';
 import { determineSeason, displaySznInfo } from './utils/determineCurrentSzn';
 import { generateSpecialIcon, meetRequirements, useSpecialIcon } from './utils/funnyIcons';
 
+const theme = createTheme({
+  'bg-main': '#0070FF'
+});
 
 function App() {
 
@@ -121,12 +124,15 @@ function App() {
                 onChange={handleCityChange}
               />
             </GridItem>
-            <GridItem>
-              <Flex justify='center'
-                align="flex-end">
-                <Button variant="filled" color="teal" size="md" radius="xl" onClick={getWeather}>Search</Button>
-              </Flex>
-            </GridItem>
+            <Flex
+            align="flex-end">
+              <GridItem>
+                <Flex justify='center'
+                  align="flex-end">
+                  <Button variant="filled" color="teal" size="md" radius="xl" onClick={getWeather}>Search</Button>
+                </Flex>
+              </GridItem>
+            </Flex>
           </Grid>
         </div>
         {dataLoaded ?
